@@ -7,7 +7,7 @@ export const UPDATE_PRODUCTS = (products) => {
 export const UPDATE_CATEGORIES = (categories) => {
     return {
         type: "UPDATE_CATEGORIES",
-        [categories]
+        categories
     }
 };
 export const UPDATE_CURRENT_CATEGORY = (currentCategory) => {

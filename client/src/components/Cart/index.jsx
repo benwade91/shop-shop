@@ -21,6 +21,7 @@ const Cart = () => {
 
 
     useEffect(() => {
+        console.log("whats the deal")
         if (data) {
             stripePromise.then((res) => {
                 res.redirectToCheckout({ sessionId: data.checkout.session });
@@ -58,12 +59,13 @@ const Cart = () => {
                 
                 productIds.push(item._id);
             }
-            console.log(productIds);
         });
-
+console.log('checkout not working');
+console.log(productIds);
         getCheckout({
             variables: { products: productIds }
-        });
+        },
+        console.log('inside checkout'));
     }
 
     console.log(state);
