@@ -4,7 +4,7 @@ import { idbPromise } from "../../utils/helpers";
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
-import { useStoreContext } from '../../utils/GlobalState';
+// import { useStoreContext } from '../../utils/GlobalState';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 import { loadStripe } from '@stripe/stripe-js';
@@ -21,7 +21,6 @@ const Cart = () => {
 
 
     useEffect(() => {
-        console.log("whats the deal")
         if (data) {
             stripePromise.then((res) => {
                 res.redirectToCheckout({ sessionId: data.checkout.session });
@@ -60,15 +59,10 @@ const Cart = () => {
                 productIds.push(item._id);
             }
         });
-console.log('checkout not working');
-console.log(productIds);
         getCheckout({
             variables: { products: productIds }
-        },
-        console.log('inside checkout'));
+        });
     }
-
-    console.log(state);
 
     if (!state.cartOpen) {
         return (
