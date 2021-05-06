@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from "react";
-import { useProductReducer } from './reducers';
+import useProductReducer from './reducers';
+import {useSelector, useDispatch} from 'react-redux'
 
 const StoreContext = createContext();
 const { Provider } = StoreContext;
@@ -17,7 +18,7 @@ const StoreProvider = ({ value = [], ...props}) => {
 };
 
 const useStoreContext = () => {
-    return useContext(StoreContext);
+    return [useDispatch, useSelector]
   };
 
 export { StoreProvider, useStoreContext };

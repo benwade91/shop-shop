@@ -8,21 +8,26 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { QUERY_CHECKOUT } from '../../utils/queries';
 import { loadStripe } from '@stripe/stripe-js';
-
+import { useSelector, useDispatch } from 'react-redux'
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
     const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-    const [state, dispatch] = useStoreContext();
+    // const [state, dispatch] = useStoreContext();
+
+    const state = useSelector(state => state);
+    const dispatch = useDispatch();
+
+
 
     useEffect(() => {
         if (data) {
-          stripePromise.then((res) => {
-            res.redirectToCheckout({ sessionId: data.checkout.session });
-          });
+            stripePromise.then((res) => {
+                res.redirectToCheckout({ sessionId: data.checkout.session });
+            });
         }
-      }, [data]);
-      
+    }, [data]);
+
     useEffect(() => {
         async function getCart() {
             const cart = await idbPromise('cart', 'get');
@@ -48,17 +53,18 @@ const Cart = () => {
 
     function submitCheckout() {
         const productIds = [];
-      
         state.cart.forEach((item) => {
-          for (let i = 0; i < item.purchaseQuantity; i++) {
-            productIds.push(item._id);
-          }
+            for (let i = 0; i < item.purchaseQuantity; i++) {
+                
+                productIds.push(item._id);
+            }
+            console.log(productIds);
         });
 
         getCheckout({
             variables: { products: productIds }
-          });
-      }
+        });
+    }
 
     console.log(state);
 
@@ -83,24 +89,16 @@ const Cart = () => {
                     ))}
                     <div className="flex-row space-between">
                         <strong>Total: ${calculateTotal()}</strong>
-                        {
-                            Auth.loggedIn() ?
+                        {Auth.loggedIn() ?
                                 <button onClick={submitCheckout}>
                                     Checkout
                                 </button>
                                 :
-                                <span>(log in to check out)</span>
+                                <span>"(log in to check out)"</span>
                         }
                     </div>
                 </div>
-            ) : (
-                    <h3>
-                        <span role="img" aria-label="shocked">
-                            😱
-      </span>
-      You haven't added anything to your cart yet!
-                    </h3>
-                )}
+            ) : (<h3><span role="img" aria-label="shocked">😱</span>You havent added anything to your cart yet!</h3>)}
         </div>
     );
 };
