@@ -1,5 +1,5 @@
 # Shop-Shop
-
+The deployed app can be found [here](https://fathomless-chamber-20433.herokuapp.com/).
 ## Description: 
 Shop-Shop is a shopping website that uses React for the front end and Redux for state management. Orders to the website are handled by Stipe for payment management, and redirected back to the homepage of Shop-Shop. Users must be signed up and logged-in in order to make a purchase. The login verification comes from Json Web Tokens. 
 
